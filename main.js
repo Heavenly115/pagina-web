@@ -78,6 +78,29 @@ loader.load(
     }
 );
 
+// --- Mobile Menu Toggle ---
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.getElementById('nav-links');
+
+if (mobileMenu && navLinks) {
+    mobileMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const icon = mobileMenu.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-xmark');
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = mobileMenu.querySelector('i');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-xmark');
+        });
+    });
+}
+
 // Fallback placeholder if model fails to load
 function createPlaceholderModel() {
     console.log("Creating placeholder model...");
@@ -90,11 +113,22 @@ function createPlaceholderModel() {
     group.add(desk);
 
     // Monitor
-    const monitorGeo = new THREE.BoxGeometry(1.5, 0.9, 0.1);
-    const monitorMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+    const monitorGeo = new THREE.BoxGeometry(1.8, 1.1, 0.1);
+    const monitorMat = new THREE.MeshStandardMaterial({ 
+        color: 0x111111,
+        emissive: 0x00f2fe,
+        emissiveIntensity: 0.1
+    });
     const monitor = new THREE.Mesh(monitorGeo, monitorMat);
-    monitor.position.set(0, 0.8, -0.8);
+    monitor.position.set(0, 1.0, -0.8);
     group.add(monitor);
+
+    // Screen content (glowing rectangle)
+    const screenGeo = new THREE.PlaneGeometry(1.7, 1.0);
+    const screenMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.2 });
+    const screen = new THREE.Mesh(screenGeo, screenMat);
+    screen.position.set(0, 1.0, -0.74);
+    group.add(screen);
 
     // Base
     const baseGeo = new THREE.BoxGeometry(0.3, 0.6, 0.3);

@@ -58,6 +58,10 @@ nav {
     color: var(--primary);
 }
 
+.menu-toggle {
+    display: none;
+}
+
 nav ul {
     display: flex;
     list-style: none;
@@ -476,8 +480,30 @@ footer i {
         font-size: 2.8rem;
     }
     
-    nav ul {
-        display: none; /* In a real app we'd add a burger menu */
+    .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary);
+    }
+
+    #nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 12, 0.95);
+        padding: 2rem;
+        border-bottom: 1px solid var(--glass-border);
+        gap: 1.5rem;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    #nav-links.active {
+        display: flex;
     }
     
     .projects-grid {
