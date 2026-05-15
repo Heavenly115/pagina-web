@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio 3D | Angel Iram Torres Salazar</title>
+    <meta name="description" content="Portafolio personal de Angel Iram Torres Salazar, estudiante de Ingeniería en Sistemas, con escena 3D interactiva.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ATS<span>.</span></div>
+            <ul id="nav-links">
+                <li><a href="#about">Sobre mí</a></li>
+                <li><a href="#skills">Habilidades</a></li>
+                <li><a href="#projects">Proyectos</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section with 3D Scene -->
+        <section id="hero">
+            <div class="hero-content">
+                <div class="badge">Estudiante de Ingeniería en Sistemas</div>
+                <h1>Angel Iram <br><span>Torres Salazar</span></h1>
+                <p>Bienvenido a mi portafolio interactivo. Explora mi setup de programador diseñado en 3D.</p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn primary">Ver Proyectos</a>
+                    <a href="#contact" class="btn secondary">Contactar</a>
+                </div>
+            </div>
+            <div id="canvas-container">
+                <div class="loader-3d">
+                    <div class="spinner"></div>
+                    <p>Cargando Escena 3D...</p>
+                </div>
+                <!-- Three.js Canvas will be injected here -->
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="container">
+            <div class="section-title">
+                <h2>Sobre <span>Mí</span></h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <!-- Placeholder for User Photo/Avatar -->
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Angel" alt="Angel Iram Torres Salazar">
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>¡Hola! Soy Angel Iram</h3>
+                    <p>Soy un apasionado estudiante de <strong>Ingeniería en Sistemas</strong> enfocado en el desarrollo de soluciones creativas e interactivas. Me encanta combinar la tecnología con el diseño visual para crear experiencias únicas.</p>
+                    <p>Este portafolio es una muestra de mi progreso en el mundo de la programación, el diseño 3D y la animación interactiva.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="container">
+            <div class="section-title">
+                <h2>Mis <span>Habilidades</span></h2>
+                <div class="underline"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fa-solid fa-cube"></i>
+                    <h3>Blender</h3>
+                    <p>Modelado 3D e iluminación de escenas isométricas.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-solid fa-play"></i>
+                    <h3>Rive</h3>
+                    <p>Creación de animaciones interactivas basadas en estados.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-flutter"></i>
+                    <h3>Flutter</h3>
+                    <p>Desarrollo de aplicaciones móviles multiplataforma.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container">
+            <div class="section-title">
+                <h2>Proyectos <span>Destacados</span></h2>
+                <div class="underline"></div>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-media">
+                        <!-- Flutter Demo GIF -->
+                        <img src="assets/flutter_demo.gif" alt="Flutter Demo Project">
+                    </div>
+                    <div class="project-info">
+                        <h3>Flutter Demo & 4 Páginas</h3>
+                        <p>Interfaz interactiva construida con Flutter y animaciones de Rive. Incluye navegación entre múltiples páginas y componentes personalizados.</p>
+                        <div class="project-tags">
+                            <span>Flutter</span>
+                            <span>Rive</span>
+                            <span>Dart</span>
+                        </div>
+                        <a href="https://github.com/Heavenly115/login_with_ride_animation_5sa_26_1" target="_blank" class="project-link">Ver Repositorio <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-media">
+                        <!-- Placeholder for 3D Scene Image -->
+                        <div class="placeholder-img">
+                            <i class="fa-solid fa-mountain-sun"></i>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Isometric Room 3D</h3>
+                        <p>Modelado de un setup de programador exportado desde Blender e integrado con Three.js.</p>
+                        <ul class="elements-list">
+                            <li>1. Escritorio</li>
+                            <li>2. Monitor</li>
+                            <li>3. Teclado</li>
+                            <li>4. Mouse</li>
+                            <li>5. Laptop/PC</li>
+                            <li>6. Objeto Extra (Lámpara)</li>
+                            <li>7. Objeto Extra (Planta)</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span>Blender</span>
+                            <span>Three.js</span>
+                            <span>GLTF</span>
+                        </div>
+                        <a href="#hero" class="project-link">Ver Escena <i class="fa-solid fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container">
+            <div class="section-title">
+                <h2><span>Contacto</span></h2>
+                <div class="underline"></div>
+            </div>
+            <div class="contact-card">
+                <p>¿Tienes algún proyecto en mente? ¡Hablemos!</p>
+                <div class="contact-links">
+                    <a href="https://wa.me/529999188152" target="_blank" class="contact-item">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span>+52 999 918 8152</span>
+                    </a>
+                    <a href="mailto:torressalazarangeliram@gmail.com" class="contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>torressalazarangeliram@gmail.com</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Angel Iram Torres Salazar. Diseñado con <i class="fa-solid fa-heart"></i> y Three.js</p>
+    </footer>
+
+    <!-- Three.js Libraries -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.154.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.154.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
