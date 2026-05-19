@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portafolio 3D | Angel Iram Torres Salazar</title>
     <meta name="description" content="Portafolio personal de Angel Iram Torres Salazar, estudiante de Ingeniería en Sistemas, con escena 3D interactiva.">
-    <link rel="stylesheet" href="style.css?v=2">
-    <!-- Google Fonts -->
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload CSS to avoid render‑blocking -->
+    <link rel="preload" as="style" href="style.css?v=2" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.css?v=2"></noscript>
+    <!-- Google Fonts (swap for better performance) -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prefetch heavy assets -->
+    <link rel="prefetch" href="assets/room_render.png" as="image">
+    <link rel="prefetch" href="assets/flutter_demo.gif" as="image">
 </head>
 <body>
     <header>
@@ -58,7 +66,7 @@
                 <div class="about-image">
                     <div class="image-wrapper">
                         <!-- Foto de perfil del usuario -->
-                        <img src="assets/avatar.png" alt="Angel Iram Torres Salazar" decoding="async">
+                        <img src="assets/avatar.png" alt="Angel Iram Torres Salazar" loading="lazy" width="300" height="300" decoding="async">
                     </div>
                 </div>
                 <div class="about-text">
@@ -104,7 +112,7 @@
                 <article class="project-card">
                     <div class="project-media">
                         <!-- Flutter Demo GIF -->
-                        <img src="assets/flutter_demo.gif" alt="Flutter Demo Project" loading="lazy" decoding="async">
+                        <img src="assets/flutter_demo.gif" alt="Flutter Demo Project" loading="lazy" width="600" height="400" decoding="async">
                     </div>
                     <div class="project-info">
                         <h3>Flutter Demo & 4 Páginas</h3>
@@ -121,7 +129,7 @@
                 <article class="project-card">
                     <div class="project-media">
                         <!-- Imagen del Setup 3D -->
-                        <img src="assets/room_render.png" alt="Isometric Room 3D Render" loading="lazy" decoding="async">
+                        <img src="assets/room_render.png" alt="Isometric Room 3D Render" loading="lazy" width="800" height="600" decoding="async">
                     </div>
                     <div class="project-info">
                         <h3>Isometric Room 3D</h3>
@@ -188,6 +196,6 @@
             }
         }
     </script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="main.js" defer></script>
 </body>
 </html>
