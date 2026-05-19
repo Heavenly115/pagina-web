@@ -38,7 +38,7 @@ controls.maxDistance = 20;
 const loader = new GLTFLoader();
 
 // Replace 'assets/setup.glb' with your actual path
-const modelPath = 'assets/setupv3.glb'; 
+const modelPath = 'assets/setupv4-v1.glb'; 
 
 loader.load(
     modelPath,
@@ -46,7 +46,7 @@ loader.load(
         const model = gltf.scene;
         
         // Realistic deep neon purple/violet ceiling glow with physical decay
-        const purpleNeon = new THREE.PointLight(0x9a2df5, 7.5, 12); 
+        const purpleNeon = new THREE.PointLight(0xbd24ff, 8.5, 15); 
         purpleNeon.decay = 2.0; // Physically correct quadratic decay
         purpleNeon.position.set(0, 3.5, 0);
         purpleNeon.castShadow = true;
@@ -67,17 +67,30 @@ loader.load(
                 node.receiveShadow = true;
                 
                 if (node.material) {
+                    node.material = node.material.clone(); // Clone material to apply unique shadings safely
                     node.material.roughness = Math.max(node.material.roughness, 0.4); // Less plastic reflectivity
                     
                     const nameLower = node.name.toLowerCase();
                     
+                    // Sombreados en morado neon para aspectos claves
+                    // Si el objeto es oscuro o es clave (chasis, teclado, raton, cama, mesa), le damos un tinte o brillo morado
+                    if (nameLower.includes('key') || nameLower.includes('teclado') || nameLower.includes('mouse') || 
+                        nameLower.includes('chasis') || nameLower.includes('mesa') || nameLower.includes('desk') || 
+                        nameLower.includes('pc') || nameLower.includes('bed') || nameLower.includes('cama')) {
+                        // Mezclar el color base con morado neón
+                        node.material.color.lerp(new THREE.Color(0xbd24ff), 0.15);
+                        // Añadir un suave sombreado/brillo emisivo morado
+                        node.material.emissive = new THREE.Color(0xbd24ff);
+                        node.material.emissiveIntensity = 0.25;
+                    }
+
                     // Realistic, deep violet neon emissive glow for LED strip mallas
                     if (nameLower.includes('led') || nameLower.includes('light') || nameLower.includes('neon')) {
                         node.material.emissive = new THREE.Color(0xbd24ff);
-                        node.material.emissiveIntensity = 2.5; // Realistic emissive strength
+                        node.material.emissiveIntensity = 3.5; // Realistic emissive strength
                     }
                     
-                    // Screen / monitor texture emission handling (make it very clear instead of solid washed-out white)
+                    // Screen / monitor texture emission handling
                     if (nameLower.includes('screen') || 
                         nameLower.includes('monitor') || 
                         nameLower.includes('tv') || 
@@ -85,13 +98,17 @@ loader.load(
                         node.name.includes('Object 64')) {
                         
                         // Lower emissive intensity so the texture details are extremely sharp and visible
-                        node.material.emissiveIntensity = 0.08; 
+                        node.material.emissiveIntensity = 0.1; 
                         
                         // If it has a texture map, use it as the emissiveMap so the screen glows with the actual image!
                         if (node.material.map && !node.material.emissiveMap) {
                             node.material.emissiveMap = node.material.map;
                             node.material.emissive = new THREE.Color(0xffffff);
                         }
+                    } else if (node.material.color && node.material.color.getHex() < 0x222222) {
+                        // Aplicar sombreado morado ambiental a objetos muy oscuros/negros para que no se pierdan en la sombra
+                        node.material.emissive = new THREE.Color(0x9a2df5);
+                        node.material.emissiveIntensity = 0.12;
                     }
                 }
             }
