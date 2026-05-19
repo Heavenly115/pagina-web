@@ -1,3 +1,4 @@
+@import url('reset.css');
 :root {
     --primary: #bd24ff;
     --primary-dim: rgba(189, 36, 255, 0.15);
@@ -22,7 +23,7 @@ html {
 }
 
 body {
-    background: #000000;
+    background: var(--bg);
     background-image:
         radial-gradient(ellipse at 20% 10%, rgba(189, 36, 255, 0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, rgba(100, 0, 180, 0.07) 0%, transparent 50%);
@@ -69,13 +70,15 @@ nav {
 }
 
 .menu-toggle {
-    display: none;
+    display: block;
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--primary);
 }
 
 nav ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     list-style: none;
     gap: 2rem;
@@ -501,9 +504,27 @@ h1 span {
 }
 
 .contact-card p {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
+    const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.getElementById('nav-links');
+
+// Dark mode toggle script
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+if (darkModeToggle) {
+  const storedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = storedTheme ? storedTheme === 'dark' : prefersDark;
+  document.body.classList.toggle('dark-mode', isDark);
+  darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+  darkModeToggle.addEventListener('click', () => {
+    const nowDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
+    darkModeToggle.textContent = nowDark ? '☀️' : '🌙';
+  });
+} {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
 }
 
 .contact-links {
@@ -563,6 +584,16 @@ footer i {
 /* ==========================================
    RESPONSIVE
    ========================================== */
+.dark-mode {
+    --bg: #111111;
+    --card-bg: rgba(20, 0, 30, 0.7);
+    --text: #e0e0e0;
+    --text-muted: #aaa;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.18);
+    --primary: #bd24ff;
+}
+
 @media (max-width: 1024px) {
     #hero {
         display: flex;
@@ -615,31 +646,37 @@ footer i {
         text-align: center;
     }
 
-    .menu-toggle {
+    img.responsive-img {
+        max-width: 100%;
+        height: auto;
+    }
         display: block;
         color: var(--primary);
         text-shadow: 0 0 10px var(--primary-glow);
     }
 
     #nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.97);
-        padding: 2rem;
-        border-bottom: 1px solid var(--glass-border);
-        gap: 1.5rem;
-        text-align: center;
-        backdrop-filter: blur(16px);
-        box-shadow: 0 8px 30px rgba(189, 36, 255, 0.08);
-    }
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.97);
+    padding: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+    gap: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 30px rgba(189, 36, 255, 0.08);
+}
 
     #nav-links.active {
-        display: flex;
-    }
+    display: flex;
+    -webkit-box-display: flex;
+    -ms-flex-display: flex;
+}
 
     .projects-grid {
         grid-template-columns: 1fr;

@@ -23,15 +23,16 @@
     <header>
         <nav>
             <div class="logo">Aether115<span>.</span></div>
-            <ul id="nav-links">
-                <li><a href="#about">Sobre mí</a></li>
-                <li><a href="#skills">Habilidades</a></li>
-                <li><a href="#projects">Proyectos</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-            <div class="menu-toggle" id="mobile-menu">
-                <i class="fa-solid fa-bars"></i>
-            </div>
+        <button id="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.2rem;margin-left:1rem;">🌙</button>
+        <ul id="nav-links">
+            <li><a href="#about">Sobre mí</a></li>
+            <li><a href="#skills">Habilidades</a></li>
+            <li><a href="#projects">Proyectos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
         </nav>
     </header>
 
@@ -66,7 +67,7 @@
                 <div class="about-image">
                     <div class="image-wrapper">
                         <!-- Foto de perfil del usuario -->
-                        <img src="assets/avatar.png" alt="Angel Iram Torres Salazar" loading="lazy" width="300" height="300" decoding="async">
+                        <img src="assets/avatar.png" alt="Angel Iram Torres Salazar" loading="lazy" width="300" height="300" decoding="async" class="responsive-img">
                     </div>
                 </div>
                 <div class="about-text">
@@ -112,7 +113,7 @@
                 <article class="project-card">
                     <div class="project-media">
                         <!-- Flutter Demo GIF -->
-                        <img src="assets/flutter_demo.gif" alt="Flutter Demo Project" loading="lazy" width="600" height="400" decoding="async">
+                        <img src="assets/flutter_demo.gif" alt="Flutter Demo Project" loading="lazy" width="600" height="400" decoding="async" class="responsive-img">
                     </div>
                     <div class="project-info">
                         <h3>Flutter Demo & 4 Páginas</h3>
@@ -129,7 +130,7 @@
                 <article class="project-card">
                     <div class="project-media">
                         <!-- Imagen del Setup 3D -->
-                        <img src="assets/room_render.png" alt="Isometric Room 3D Render" loading="lazy" width="800" height="600" decoding="async">
+                        <img src="assets/room_render.png" alt="Isometric Room 3D Render" loading="lazy" width="800" height="600" decoding="async" class="responsive-img">
                     </div>
                     <div class="project-info">
                         <h3>Isometric Room 3D</h3>

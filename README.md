@@ -1,44 +1,41 @@
-# Portafolio Interactivo 3D | Aether115
+# Interactive 3D Portfolio | Aether115
 
-Bienvenido al repositorio de mi portafolio web personal. Este proyecto es una muestra de mis habilidades combinando **Desarrollo Web** y **Diseño/Modelado 3D** para crear una experiencia inmersiva y moderna.
+Welcome to the repository of my personal web portfolio. This project showcases my skills by combining **Web Development** and **3D Design/Modeling** to create an immersive and modern experience.
 
 ![Isometric Room Render](assets/room_render.png)
 
-## 🌌 Sobre el Proyecto
+## 🌌 Project Overview
 
-Este portafolio no es solo una página estática; cuenta con una escena 3D interactiva en tiempo real construida directamente en el navegador. El diseño sigue una estética **Cyberpunk / Neon Morado y Negro**, ofreciendo un alto contraste y elementos visuales con efecto de cristal (glassmorphism) e iluminación física realista.
+This portfolio is not just a static page; it features a real‑time interactive 3D scene built directly in the browser. The design follows a **Cyberpunk / Neon Purple & Black** aesthetic, offering high contrast visuals with glassmorphism effects and realistic lighting.
 
-### ✨ Características Principales
-- **Escena 3D Dinámica**: El encabezado de la página carga un modelo 3D GLTF de un setup de programación isométrico.
-- **Iluminación Realista**: Las pantallas (monitor y TV) tienen texturas auto-iluminadas para mostrar imágenes nítidas, y la escena utiliza decaimiento físico de luz (quadratic decay) para un ambiente neón auténtico.
-- **Tone Mapping Cinematográfico**: Utiliza *ACESFilmicToneMapping* para simular una cámara del mundo real, mejorando la saturación y los tonos morados sin "lavar" los colores.
-- **Tema Neón**: Interfaz de usuario construida desde cero en CSS puro con variables dinámicas, `radial-gradients` puros y sombras (`box-shadow`) de alto contraste.
-- **Diseño Responsivo**: Se adapta a teléfonos móviles y pantallas grandes perfectamente, auto-ajustando la cámara 3D para enmarcar el cuarto sin importar la resolución.
+### ✨ Key Features
+- **Dynamic 3D Scene**: The page header loads an isometric GLTF model of a programmer's setup.
+- **Realistic Lighting**: Screens (monitor and TV) use self‑illuminating textures, and the scene employs quadratic light decay for authentic neon ambience.
+- **Cinematic Tone Mapping**: Utilizes *ACESFilmicToneMapping* to simulate a real‑world camera, enhancing saturation and purple tones without washing out colors.
+- **Neon Theme**: UI built from scratch with pure CSS, using dynamic variables, radial gradients, and high‑contrast box‑shadows.
+- **Responsive Design**: Adapts gracefully to mobile phones and large displays, automatically adjusting the 3D camera to frame the room regardless of resolution.
 
-## 💻 Tecnologías Utilizadas
+## 💻 Technologies Used
+- **Three.js**: Core library for loading the `.glb` model, WebGL rendering, and managing lights and materials.
+- **Blender**: Used to model the setup (bed, chassis, desk, TV, monitor, ball, mouse, tulip vase, and an English keyboard) and export it to an optimized GLTF format.
+- **HTML5 & CSS3**: Layout and design without heavy frameworks, ensuring maximum speed.
+- **JavaScript (ES6+)**: Site logic, dynamic module imports, and orbital camera controls.
 
-- **Three.js**: Biblioteca principal para la importación del modelo `.glb`, renderizado WebGL, y manipulación de nodos de iluminación y materiales.
-- **Blender**: Utilizado para modelar el setup (cama, chasis, mesa, tele, monitor, pelota, mouse, florero de tulipanes y un teclado en inglés) y exportarlo al formato optimizado GLTF.
-- **HTML5 & CSS3**: Maquetación y sistema de diseño sin frameworks pesados, garantizando máxima velocidad.
-- **JavaScript (ES6+)**: Lógica del sitio, importaciones de módulos dinámicos y controles de la cámara orbital.
-
-## 🛠️ Objetos del Setup 3D
-
-La escena principal muestra un cuarto de programador que contiene:
-1. Cama
-2. Chasis
-3. Mesa
-4. Tele
+## 🛠️ 3D Setup Objects
+The main scene displays a programmer's room containing:
+1. Bed
+2. Chassis
+3. Desk
+4. TV
 5. Monitor
-6. Pelota
+6. Ball
 7. Mouse
-8. Florero de tulipanes
-9. Teclado en inglés
+8. Tulip vase
+9. English keyboard
 
-## 🌐 Enlaces
-
-- **Perfil de GitHub**: [Aether115 / Heavenly115](https://github.com/Heavenly115)
-- **Desarrollado por**: Angel Iram Torres Salazar
+## 🌐 Links
+- **GitHub Profile**: [Aether115 / Heavenly115](https://github.com/Heavenly115)
+- **Developed by**: Angel Iram Torres Salazar
 
 ---
-*Diseñado con pasión, código y Three.js.*
+*Designed with passion, code, and Three.js.*
