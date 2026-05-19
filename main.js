@@ -11,10 +11,11 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
 camera.position.set(6, 5, -6);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
 renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Softer shadows, better performance/quality ratio
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.15; // Beautiful, cinematic color exposure
 container.appendChild(renderer.domElement);
@@ -52,16 +53,21 @@ loader.load(
         purpleNeon.decay = 2.0; // Physically correct quadratic decay
         purpleNeon.position.set(0, 3.5, 0);
         purpleNeon.castShadow = true;
+        purpleNeon.shadow.mapSize.width = 1024; // Optimize shadow map size
+        purpleNeon.shadow.mapSize.height = 1024;
+        purpleNeon.shadow.bias = -0.001; // Reduce shadow acne
         scene.add(purpleNeon);
 
         // Warm bedside/desk spot lights with physical decay for realistic rolloff
         const deskLight = new THREE.PointLight(0xff9d3b, 5.0, 7.5);
         deskLight.decay = 2.0;
-        deskLight.castShadow = true;
+        deskLight.castShadow = false; // Disable secondary light shadows for performance
 
         const bedLight = new THREE.PointLight(0xff5500, 6.0, 7.5);
         bedLight.decay = 2.0;
-        bedLight.castShadow = true;
+        bedLight.castShadow = false; // Disable secondary light shadows for performance
+
+        const materialCache = new Map(); // Cache to avoid unnecessary material cloning
 
         model.traverse((node) => {
             if (node.isMesh) {
@@ -69,49 +75,52 @@ loader.load(
                 node.receiveShadow = true;
 
                 if (node.material) {
-                    node.material = node.material.clone(); // Clone material to apply unique shadings safely
-                    node.material.roughness = Math.max(node.material.roughness, 0.4); // Less plastic reflectivity
-
                     const nameLower = node.name.toLowerCase();
+                    let matType = 'default';
 
-                    // Sombreados en morado neon para aspectos claves
-                    // Si el objeto es oscuro o es clave (chasis, teclado, raton, cama, mesa), le damos un tinte o brillo morado
                     if (nameLower.includes('key') || nameLower.includes('teclado') || nameLower.includes('mouse') ||
                         nameLower.includes('chasis') || nameLower.includes('mesa') || nameLower.includes('desk') ||
                         nameLower.includes('pc') || nameLower.includes('bed') || nameLower.includes('cama')) {
-                        // Mezclar el color base con morado neón
-                        node.material.color.lerp(new THREE.Color(0xbd24ff), 0.15);
-                        // Añadir un suave sombreado/brillo emisivo morado
-                        node.material.emissive = new THREE.Color(0xbd24ff);
-                        node.material.emissiveIntensity = 0.25;
-                    }
-
-                    // Realistic, deep violet neon emissive glow for LED strip mallas
-                    if (nameLower.includes('led') || nameLower.includes('light') || nameLower.includes('neon')) {
-                        node.material.emissive = new THREE.Color(0xbd24ff);
-                        node.material.emissiveIntensity = 3.5; // Realistic emissive strength
-                    }
-
-                    // Screen / monitor texture emission handling
-                    if (nameLower.includes('screen') ||
-                        nameLower.includes('monitor') ||
-                        nameLower.includes('tv') ||
-                        nameLower.includes('samsung') ||
-                        node.name.includes('Object 64')) {
-
-                        // Lower emissive intensity so the texture details are extremely sharp and visible
-                        node.material.emissiveIntensity = 0.1;
-
-                        // If it has a texture map, use it as the emissiveMap so the screen glows with the actual image!
-                        if (node.material.map && !node.material.emissiveMap) {
-                            node.material.emissiveMap = node.material.map;
-                            node.material.emissive = new THREE.Color(0xffffff);
-                        }
+                        matType = 'purple_tint';
+                    } else if (nameLower.includes('led') || nameLower.includes('light') || nameLower.includes('neon')) {
+                        matType = 'neon_glow';
+                    } else if (nameLower.includes('screen') || nameLower.includes('monitor') || nameLower.includes('tv') ||
+                               nameLower.includes('samsung') || node.name.includes('Object 64')) {
+                        matType = 'screen';
                     } else if (node.material.color && node.material.color.getHex() < 0x222222) {
-                        // Aplicar sombreado morado ambiental a objetos muy oscuros/negros para que no se pierdan en la sombra
-                        node.material.emissive = new THREE.Color(0x9a2df5);
-                        node.material.emissiveIntensity = 0.12;
+                        matType = 'dark_purple';
                     }
+
+                    // Create a unique cache key based on original material UUID and the modification type
+                    const cacheKey = node.material.uuid + '_' + matType;
+
+                    if (!materialCache.has(cacheKey)) {
+                        const newMat = node.material.clone();
+                        newMat.roughness = Math.max(newMat.roughness, 0.4);
+
+                        if (matType === 'purple_tint') {
+                            newMat.color.lerp(new THREE.Color(0xbd24ff), 0.15);
+                            newMat.emissive = new THREE.Color(0xbd24ff);
+                            newMat.emissiveIntensity = 0.25;
+                        } else if (matType === 'neon_glow') {
+                            newMat.emissive = new THREE.Color(0xbd24ff);
+                            newMat.emissiveIntensity = 3.5;
+                        } else if (matType === 'screen') {
+                            newMat.emissiveIntensity = 0.1;
+                            if (newMat.map && !newMat.emissiveMap) {
+                                newMat.emissiveMap = newMat.map;
+                                newMat.emissive = new THREE.Color(0xffffff);
+                            }
+                        } else if (matType === 'dark_purple') {
+                            newMat.emissive = new THREE.Color(0x9a2df5);
+                            newMat.emissiveIntensity = 0.12;
+                        }
+
+                        materialCache.set(cacheKey, newMat);
+                    }
+
+                    // Apply the optimized cached material
+                    node.material = materialCache.get(cacheKey);
                 }
             }
         });

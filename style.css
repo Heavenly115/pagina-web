@@ -174,7 +174,8 @@ h1 span {
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    will-change: transform, box-shadow;
     display: inline-block;
     letter-spacing: 0.3px;
 }
@@ -335,7 +336,8 @@ h1 span {
     padding: 3rem 2rem;
     border-radius: 20px;
     text-align: center;
-    transition: all 0.35s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
+    will-change: transform, box-shadow;
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
@@ -380,6 +382,7 @@ h1 span {
     border-radius: 20px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform, box-shadow;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -520,7 +523,8 @@ h1 span {
     display: flex;
     align-items: center;
     gap: 1rem;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    will-change: transform, box-shadow;
     font-weight: 500;
 }
 
