@@ -70,7 +70,7 @@ nav {
 }
 
 .menu-toggle {
-    display: block;
+    display: none;
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--primary);
@@ -650,10 +650,12 @@ footer i {
         max-width: 100%;
         height: auto;
     }
-        display: block;
-        color: var(--primary);
-        text-shadow: 0 0 10px var(--primary-glow);
-    }
+.menu-toggle {
+    display: block;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary);
+}
 
     #nav-links {
     display: none;
@@ -673,9 +675,9 @@ footer i {
 }
 
     #nav-links.active {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    -webkit-box-display: flex;
-    -ms-flex-display: flex;
 }
 
     .projects-grid {

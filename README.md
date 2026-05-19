@@ -1,41 +1,71 @@
 # Interactive 3D Portfolio | Aether115
 
-Welcome to the repository of my personal web portfolio. This project showcases my skills by combining **Web Development** and **3D Design/Modeling** to create an immersive and modern experience.
+Welcome to **Aether115's** interactive web portfolio. This site showcases a blend of **Web Development** and **3D Modeling** to deliver an immersive, modern experience.
 
 ![Isometric Room Render](assets/room_render.png)
 
-## 🌌 Project Overview
+---
 
-This portfolio is not just a static page; it features a real‑time interactive 3D scene built directly in the browser. The design follows a **Cyberpunk / Neon Purple & Black** aesthetic, offering high contrast visuals with glassmorphism effects and realistic lighting.
-
-### ✨ Key Features
-- **Dynamic 3D Scene**: The page header loads an isometric GLTF model of a programmer's setup.
-- **Realistic Lighting**: Screens (monitor and TV) use self‑illuminating textures, and the scene employs quadratic light decay for authentic neon ambience.
-- **Cinematic Tone Mapping**: Utilizes *ACESFilmicToneMapping* to simulate a real‑world camera, enhancing saturation and purple tones without washing out colors.
-- **Neon Theme**: UI built from scratch with pure CSS, using dynamic variables, radial gradients, and high‑contrast box‑shadows.
-- **Responsive Design**: Adapts gracefully to mobile phones and large displays, automatically adjusting the 3D camera to frame the room regardless of resolution.
-
-## 💻 Technologies Used
-- **Three.js**: Core library for loading the `.glb` model, WebGL rendering, and managing lights and materials.
-- **Blender**: Used to model the setup (bed, chassis, desk, TV, monitor, ball, mouse, tulip vase, and an English keyboard) and export it to an optimized GLTF format.
-- **HTML5 & CSS3**: Layout and design without heavy frameworks, ensuring maximum speed.
-- **JavaScript (ES6+)**: Site logic, dynamic module imports, and orbital camera controls.
-
-## 🛠️ 3D Setup Objects
-The main scene displays a programmer's room containing:
-1. Bed
-2. Chassis
-3. Desk
-4. TV
-5. Monitor
-6. Ball
-7. Mouse
-8. Tulip vase
-9. English keyboard
-
-## 🌐 Links
-- **GitHub Profile**: [Aether115 / Heavenly115](https://github.com/Heavenly115)
-- **Developed by**: Angel Iram Torres Salazar
+## ✨ Overview
+- Real‑time 3D scene built with **Three.js**
+- Neon‑purple cyber‑punk visual style with glass‑morphism and dynamic lighting
+- Fully responsive layout that works on mobile, tablets and desktops
+- Dark‑mode toggle with smooth transitions
 
 ---
-*Designed with passion, code, and Three.js.*
+
+## 🛠️ Tech Stack
+- **HTML5**, **CSS3** (custom design, no frameworks)
+- **JavaScript (ES6+)**
+- **Three.js** for WebGL rendering
+- **Blender** for 3D asset creation (exported as GLTF)
+- **Git** for version control
+
+---
+
+## 🎮 Features
+- Interactive navigation menu with a mobile‑first hamburger toggle
+- Dynamic camera positioning that adapts to the model size and viewport
+- Optimized materials and shadows for performance on low‑end devices
+- Automatic fallback placeholder if the 3D model fails to load
+- Accessibility‑friendly meta tags and semantic HTML
+
+---
+
+## 📦 Project Structure
+```
+├─ assets/               # Images, GIFs, and the GLTF model
+├─ index.html            # Main HTML entry point
+├─ style.css             # Custom CSS with responsive media queries
+├─ main.js               # Three.js scene setup and UI logic
+├─ README.md             # This documentation file
+└─ ...
+```
+
+---
+
+## 🚀 Getting Started
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Heavenly115/pagina-web.git
+   cd pagina-web
+   ```
+2. **Serve the site locally** (recommended – use any static server, e.g., VS Code Live Server or `npx serve`)
+3. Open `http://localhost:<port>` in a browser.
+
+---
+
+## 🛠️ Development
+- Run `npm install` if you add build tools later.
+- Edit `style.css` for design tweaks.
+- Modify `main.js` to experiment with lighting, camera angles, or 3D assets.
+- Use `git add <files>`, `git commit -m "<msg>"`, and `git push` to version your changes.
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License** – feel free to fork, modify, and use it for your own portfolio.
+
+---
+
+*Crafted with passion, code, and Three.js.*
