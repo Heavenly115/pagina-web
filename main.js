@@ -8,31 +8,23 @@ const loaderUI = document.querySelector('.loader-3d');
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-camera.position.set(5, 5, 5);
+camera.position.set(6, 5, -6);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15; // Beautiful, cinematic color exposure
 container.appendChild(renderer.domElement);
 
 // --- Lighting ---
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+const ambientLight = new THREE.AmbientLight(0x22183d, 0.6); // Deep atmospheric purple ambient
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+const directionalLight = new THREE.DirectionalLight(0xbd24ff, 0.4); // Soft purple top light
 directionalLight.position.set(5, 10, 5);
-directionalLight.castShadow = true;
 scene.add(directionalLight);
-
-// Point lights for atmosphere
-const pointLight1 = new THREE.PointLight(0x00f2fe, 1, 10);
-pointLight1.position.set(2, 2, 2);
-scene.add(pointLight1);
-
-const pointLight2 = new THREE.PointLight(0x4facfe, 1, 10);
-pointLight2.position.set(-2, 1, -2);
-scene.add(pointLight2);
 
 // --- Controls ---
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -46,30 +38,177 @@ controls.maxDistance = 20;
 const loader = new GLTFLoader();
 
 // Replace 'assets/setup.glb' with your actual path
-const modelPath = 'assets/setup.glb'; 
+const modelPath = 'assets/setupv3.glb'; 
 
 loader.load(
     modelPath,
     (gltf) => {
         const model = gltf.scene;
+        
+        // Realistic deep neon purple/violet ceiling glow with physical decay
+        const purpleNeon = new THREE.PointLight(0x9a2df5, 7.5, 12); 
+        purpleNeon.decay = 2.0; // Physically correct quadratic decay
+        purpleNeon.position.set(0, 3.5, 0);
+        purpleNeon.castShadow = true;
+        scene.add(purpleNeon);
+
+        // Warm bedside/desk spot lights with physical decay for realistic rolloff
+        const deskLight = new THREE.PointLight(0xff9d3b, 5.0, 7.5);
+        deskLight.decay = 2.0;
+        deskLight.castShadow = true;
+        
+        const bedLight = new THREE.PointLight(0xff5500, 6.0, 7.5);
+        bedLight.decay = 2.0;
+        bedLight.castShadow = true;
+
         model.traverse((node) => {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
+                
+                if (node.material) {
+                    node.material.roughness = Math.max(node.material.roughness, 0.4); // Less plastic reflectivity
+                    
+                    const nameLower = node.name.toLowerCase();
+                    
+                    // Realistic, deep violet neon emissive glow for LED strip mallas
+                    if (nameLower.includes('led') || nameLower.includes('light') || nameLower.includes('neon')) {
+                        node.material.emissive = new THREE.Color(0xbd24ff);
+                        node.material.emissiveIntensity = 2.5; // Realistic emissive strength
+                    }
+                    
+                    // Screen / monitor texture emission handling (make it very clear instead of solid washed-out white)
+                    if (nameLower.includes('screen') || 
+                        nameLower.includes('monitor') || 
+                        nameLower.includes('tv') || 
+                        nameLower.includes('samsung') || 
+                        node.name.includes('Object 64')) {
+                        
+                        // Lower emissive intensity so the texture details are extremely sharp and visible
+                        node.material.emissiveIntensity = 0.08; 
+                        
+                        // If it has a texture map, use it as the emissiveMap so the screen glows with the actual image!
+                        if (node.material.map && !node.material.emissiveMap) {
+                            node.material.emissiveMap = node.material.map;
+                            node.material.emissive = new THREE.Color(0xffffff);
+                        }
+                    }
+                }
             }
         });
+
+        // Place custom warm lights dynamically at coordinates of monitor and bed
+        model.traverse((node) => {
+            if (node.isMesh) {
+                const nameLower = node.name.toLowerCase();
+                
+                if (nameLower.includes('samsung') || nameLower.includes('mesa')) {
+                    const pos = new THREE.Vector3();
+                    node.getWorldPosition(pos);
+                    deskLight.position.copy(pos).add(new THREE.Vector3(0.5, 1.2, 0.5));
+                }
+                
+                if (nameLower.includes('basecama') || nameLower.includes('bedside')) {
+                    const pos = new THREE.Vector3();
+                    node.getWorldPosition(pos);
+                    bedLight.position.copy(pos).add(new THREE.Vector3(-0.5, 1.0, -0.5));
+                }
+            }
+        });
+
+        scene.add(deskLight);
+        scene.add(bedLight);
+
         scene.add(model);
         loaderUI.style.display = 'none'; // Hide loader when done
         
-        // Center model
+        // Center model and dynamically set optimal camera distance based on bounding box
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
         model.position.sub(center);
+
+        // Adjust camera dynamically to fit the model perfectly in the viewport
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = camera.fov * (Math.PI / 180);
+        let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+        cameraDistance *= 1.35; // Add elegant padding
+
+        // Position camera at a perfect isometric angle relative to the centered model
+        const isometricRatio = new THREE.Vector3(1.1, 0.95, -1.1).normalize();
+        camera.position.copy(isometricRatio).multiplyScalar(cameraDistance);
+        camera.lookAt(0, 0, 0);
+        
+        if (controls) {
+            controls.target.set(0, 0, 0);
+            controls.minDistance = maxDim * 0.4;
+            controls.maxDistance = maxDim * 4.0;
+            controls.update();
+        }
+
+        // Dynamically list actual objects from the 3D model (Disabled to keep hardcoded list)
+        /*
+        const elementList = document.getElementById('gltf-elements-list');
+        if (elementList) {
+            elementList.innerHTML = '';
+            const meshNames = [];
+            model.traverse((node) => {
+                if (node.isMesh && node.name) {
+                    // Clean names (remove Blender suffix like .001 or _mesh)
+                    let cleanName = node.name
+                        .replace(/[-_]?(mesh|Mesh|geo|Geo)/g, '')
+                        .replace(/\.\d+/g, '')
+                        .replace(/_1|_2|_3|_4/g, '')
+                        .replace(/_/g, ' ')
+                        .trim();
+                    
+                    // Capitalize words
+                    cleanName = cleanName.split(' ')
+                        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join(' ');
+                    
+                    // Exclude generic/empty names and helpers
+                    if (cleanName && 
+                        cleanName.length > 2 && 
+                        !meshNames.includes(cleanName) &&
+                        !['Plane', 'Cube', 'Cylinder', 'Sphere', 'Circle', 'Grid'].includes(cleanName)) {
+                        meshNames.push(cleanName);
+                    }
+                }
+            });
+
+            // Sort names alphabetically
+            meshNames.sort();
+
+            if (meshNames.length > 0) {
+                meshNames.forEach((name, idx) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${idx + 1}. ${name}`;
+                    elementList.appendChild(li);
+                });
+            } else {
+                elementList.innerHTML = '<li>No se detectaron objetos nombrados en el modelo.</li>';
+            }
+        }
+        */
     },
     (xhr) => {
-        // Optional: Update progress UI
-        const percent = (xhr.loaded / xhr.total) * 100;
-        console.log(`Loading: ${percent}%`);
+        // Update progress UI on screen
+        if (xhr.total > 0) {
+            const percent = Math.round((xhr.loaded / xhr.total) * 100);
+            const loaderText = loaderUI.querySelector('p');
+            if (loaderText) {
+                loaderText.textContent = `Cargando Escena 3D... ${percent}%`;
+            }
+            console.log(`Loading: ${percent}%`);
+        } else {
+            // If total size is not available (e.g. gzip)
+            const loaderText = loaderUI.querySelector('p');
+            if (loaderText) {
+                const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
+                loaderText.textContent = `Cargando Escena 3D... ${mbLoaded} MB`;
+            }
+        }
     },
     (error) => {
         console.error('An error happened loading the model:', error);
