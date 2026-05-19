@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 // --- Scene Setup ---
 const container = document.getElementById('canvas-container');
@@ -36,6 +37,7 @@ controls.maxDistance = 20;
 
 // --- Load 3D Model ---
 const loader = new GLTFLoader();
+loader.setMeshoptDecoder(MeshoptDecoder);
 
 // Replace 'assets/setup.glb' with your actual path
 const modelPath = 'assets/setupv4-v1.glb'; 
@@ -302,7 +304,7 @@ function createPlaceholderModel() {
     info.style.textAlign = 'center';
     info.style.color = 'var(--text-muted)';
     info.style.fontSize = '0.8rem';
-    info.innerHTML = '⚠️ Coloca tu archivo <strong>setup.glb</strong> en la carpeta <strong>assets/</strong> para verlo aquí.';
+    info.innerHTML = '⚠️ Error al cargar <strong>setupv4-v1.glb</strong>. Asegúrate de abrir la página con un <strong>servidor local</strong> (ej. Live Server en VS Code), no abriendo el archivo directamente.';
     container.appendChild(info);
 }
 
