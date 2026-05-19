@@ -40,15 +40,15 @@ const loader = new GLTFLoader();
 loader.setMeshoptDecoder(MeshoptDecoder);
 
 // Replace 'assets/setup.glb' with your actual path
-const modelPath = 'assets/setupv4-v1.glb'; 
+const modelPath = 'assets/setupv4-v1.glb';
 
 loader.load(
     modelPath,
     (gltf) => {
         const model = gltf.scene;
-        
+
         // Realistic deep neon purple/violet ceiling glow with physical decay
-        const purpleNeon = new THREE.PointLight(0xbd24ff, 8.5, 15); 
+        const purpleNeon = new THREE.PointLight(0xbd24ff, 8.5, 15);
         purpleNeon.decay = 2.0; // Physically correct quadratic decay
         purpleNeon.position.set(0, 3.5, 0);
         purpleNeon.castShadow = true;
@@ -58,7 +58,7 @@ loader.load(
         const deskLight = new THREE.PointLight(0xff9d3b, 5.0, 7.5);
         deskLight.decay = 2.0;
         deskLight.castShadow = true;
-        
+
         const bedLight = new THREE.PointLight(0xff5500, 6.0, 7.5);
         bedLight.decay = 2.0;
         bedLight.castShadow = true;
@@ -67,17 +67,17 @@ loader.load(
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
-                
+
                 if (node.material) {
                     node.material = node.material.clone(); // Clone material to apply unique shadings safely
                     node.material.roughness = Math.max(node.material.roughness, 0.4); // Less plastic reflectivity
-                    
+
                     const nameLower = node.name.toLowerCase();
-                    
+
                     // Sombreados en morado neon para aspectos claves
                     // Si el objeto es oscuro o es clave (chasis, teclado, raton, cama, mesa), le damos un tinte o brillo morado
-                    if (nameLower.includes('key') || nameLower.includes('teclado') || nameLower.includes('mouse') || 
-                        nameLower.includes('chasis') || nameLower.includes('mesa') || nameLower.includes('desk') || 
+                    if (nameLower.includes('key') || nameLower.includes('teclado') || nameLower.includes('mouse') ||
+                        nameLower.includes('chasis') || nameLower.includes('mesa') || nameLower.includes('desk') ||
                         nameLower.includes('pc') || nameLower.includes('bed') || nameLower.includes('cama')) {
                         // Mezclar el color base con morado neón
                         node.material.color.lerp(new THREE.Color(0xbd24ff), 0.15);
@@ -91,17 +91,17 @@ loader.load(
                         node.material.emissive = new THREE.Color(0xbd24ff);
                         node.material.emissiveIntensity = 3.5; // Realistic emissive strength
                     }
-                    
+
                     // Screen / monitor texture emission handling
-                    if (nameLower.includes('screen') || 
-                        nameLower.includes('monitor') || 
-                        nameLower.includes('tv') || 
-                        nameLower.includes('samsung') || 
+                    if (nameLower.includes('screen') ||
+                        nameLower.includes('monitor') ||
+                        nameLower.includes('tv') ||
+                        nameLower.includes('samsung') ||
                         node.name.includes('Object 64')) {
-                        
+
                         // Lower emissive intensity so the texture details are extremely sharp and visible
-                        node.material.emissiveIntensity = 0.1; 
-                        
+                        node.material.emissiveIntensity = 0.1;
+
                         // If it has a texture map, use it as the emissiveMap so the screen glows with the actual image!
                         if (node.material.map && !node.material.emissiveMap) {
                             node.material.emissiveMap = node.material.map;
@@ -120,13 +120,13 @@ loader.load(
         model.traverse((node) => {
             if (node.isMesh) {
                 const nameLower = node.name.toLowerCase();
-                
+
                 if (nameLower.includes('samsung') || nameLower.includes('mesa')) {
                     const pos = new THREE.Vector3();
                     node.getWorldPosition(pos);
                     deskLight.position.copy(pos).add(new THREE.Vector3(0.5, 1.2, 0.5));
                 }
-                
+
                 if (nameLower.includes('basecama') || nameLower.includes('bedside')) {
                     const pos = new THREE.Vector3();
                     node.getWorldPosition(pos);
@@ -140,7 +140,7 @@ loader.load(
 
         scene.add(model);
         loaderUI.style.display = 'none'; // Hide loader when done
-        
+
         // Center model and dynamically set optimal camera distance based on bounding box
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
@@ -157,7 +157,7 @@ loader.load(
         const isometricRatio = new THREE.Vector3(1.1, 0.95, -1.1).normalize();
         camera.position.copy(isometricRatio).multiplyScalar(cameraDistance);
         camera.lookAt(0, 0, 0);
-        
+
         if (controls) {
             controls.target.set(0, 0, 0);
             controls.minDistance = maxDim * 0.4;
@@ -263,7 +263,7 @@ if (mobileMenu && navLinks) {
 function createPlaceholderModel() {
     console.log("Creating placeholder model...");
     const group = new THREE.Group();
-    
+
     // Desk surface
     const deskGeo = new THREE.BoxGeometry(4, 0.2, 2.5);
     const deskMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
@@ -272,7 +272,7 @@ function createPlaceholderModel() {
 
     // Monitor
     const monitorGeo = new THREE.BoxGeometry(1.8, 1.1, 0.1);
-    const monitorMat = new THREE.MeshStandardMaterial({ 
+    const monitorMat = new THREE.MeshStandardMaterial({
         color: 0x111111,
         emissive: 0x00f2fe,
         emissiveIntensity: 0.1
@@ -293,9 +293,9 @@ function createPlaceholderModel() {
     const base = new THREE.Mesh(baseGeo, deskMat);
     base.position.set(0, 0.3, -0.8);
     group.add(base);
-    
+
     scene.add(group);
-    
+
     // Add a text message for the user
     const info = document.createElement('div');
     info.style.position = 'absolute';
