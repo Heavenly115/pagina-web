@@ -63,6 +63,25 @@ Welcome to **Aether115's** interactive web portfolio. This site showcases a blen
 
 ---
 
+## 📚 Imported Blender Assets
+Integration of the following 7 imported 3D models into the scene:
+- Furniture (Mueble)
+- Chair (Silla)
+- Keyboard (Teclado)
+- PC Case (Gabinete)
+- Mouse
+- Nintendo DS
+- Jill Valentine
+
+---
+
+## 🎓 Academic Information
+- **Professor:** Rodrigo Fidel Gaxiola Sosa
+- **Subject:** Computer Graphics (Graficación)
+- **Group:** 5sA
+
+---
+
 ## 📄 License
 This project is licensed under the **MIT License** – feel free to fork, modify, and use it for your own portfolio.
 
