@@ -36,8 +36,8 @@ Welcome to **Aether115's** interactive web portfolio. This site showcases a blen
 ```
 ├─ assets/               # Images, GIFs, and the GLTF model
 ├─ index.html            # Main HTML entry point
-├─ style.css             # Custom CSS with responsive media queries
-├─ main.js               # Three.js scene setup and UI logic
+├─ styles.css            # Custom CSS with responsive media queries
+├─ script.js             # Three.js scene setup and UI logic
 ├─ README.md             # This documentation file
 └─ ...
 ```
@@ -57,8 +57,8 @@ Welcome to **Aether115's** interactive web portfolio. This site showcases a blen
 
 ## 🛠️ Development
 - Run `npm install` if you add build tools later.
-- Edit `style.css` for design tweaks.
-- Modify `main.js` to experiment with lighting, camera angles, or 3D assets.
+- Edit `styles.css` for design tweaks.
+- Modify `script.js` to experiment with lighting, camera angles, or 3D assets.
 - Use `git add <files>`, `git commit -m "<msg>"`, and `git push` to version your changes.
 
 ---
