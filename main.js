@@ -223,7 +223,7 @@ loader.load(
     (xhr) => {
         // Update progress UI on screen
         if (xhr.total > 0) {
-            const percent = Math.round((xhr.loaded / xhr.total) * 100);
+            const percent = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
             const loaderText = loaderUI.querySelector('p');
             if (loaderText) {
                 loaderText.textContent = `Cargando Escena 3D... ${percent}%`;

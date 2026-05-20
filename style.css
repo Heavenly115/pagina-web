@@ -504,27 +504,9 @@ h1 span {
 }
 
 .contact-card p {
-    const mobileMenu = document.getElementById('mobile-menu');
-const navLinks = document.getElementById('nav-links');
-
-// Dark mode toggle script
-const darkModeToggle = document.getElementById('dark-mode-toggle');
-if (darkModeToggle) {
-  const storedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = storedTheme ? storedTheme === 'dark' : prefersDark;
-  document.body.classList.toggle('dark-mode', isDark);
-  darkModeToggle.textContent = isDark ? '☀️' : '🌙';
-  darkModeToggle.addEventListener('click', () => {
-    const nowDark = document.body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
-    darkModeToggle.textContent = nowDark ? '☀️' : '🌙';
-  });
-} {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
 }
 
 .contact-links {
@@ -540,7 +522,7 @@ if (darkModeToggle) {
     padding: 1rem 2rem;
     border-radius: 14px;
     text-decoration: none;
-    color: var(--text);
+    color: var(--primary);
     display: flex;
     align-items: center;
     gap: 1rem;
